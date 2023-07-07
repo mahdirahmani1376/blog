@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\PostsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('/posts')->controller(PostsController::class)->group(function (){
+    Route::get('/{post:slug}','show')->name('posts.view');
+});
+
+Route::prefix('/categories')->controller(CategoriesController::class)->group(function (){
+   Route::get('/{category}','show')->name('categories.view');
 });
