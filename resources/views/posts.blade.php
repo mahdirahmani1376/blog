@@ -1,12 +1,13 @@
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Post</title>
-</head>
-<body>
+<x-layout>
+    @include('_posts-header')
+    <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
+        @if($posts->count())
+            <x-posts-grid :posts="$posts"/>
+        @else
+            <p class="text-center">No Posts Yet. Please check back later.</p>
+        @endif
 
-</body>
-</html>
+
+    </main>
+
+</x-layout>

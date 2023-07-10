@@ -20,9 +20,10 @@ Route::get('/', function () {
 });
 
 Route::prefix('/posts')->controller(PostsController::class)->group(function (){
+    Route::get('/','index')->name('posts.view_any');
     Route::get('/{post:slug}','show')->name('posts.view');
 });
 
 Route::prefix('/categories')->controller(CategoriesController::class)->group(function (){
-   Route::get('/{category}','show')->name('categories.view');
+   Route::get('/{category:slug}','show')->name('categories.view');
 });
