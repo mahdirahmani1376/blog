@@ -10,7 +10,7 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        return view('posts',[
+        return view('posts.index',[
            'posts' => Post::latest()->get(),
            'categories' => Category::all()
         ]);
@@ -26,7 +26,7 @@ class CategoriesController extends Controller
 
     public function show(Category $category)
     {
-        return view('posts',[
+        return view('posts.show',[
            'posts' => $category->posts,
            'currentCategory' => $category,
             'categories' => $category::all()

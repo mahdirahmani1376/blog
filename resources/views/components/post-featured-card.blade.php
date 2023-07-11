@@ -9,7 +9,7 @@
         <div class="flex-1 flex flex-col justify-between">
             <header class="mt-8 lg:mt-0">
                 <div class="space-x-2">
-                    <a href="/{{ route('categories.view',$post->category->slug) }}"
+                    <a href="{{ route('posts.view_any',['category' => $post->category->slug]) }}"
                        class="px-3 py-1 border border-blue-300 rounded-full te xt-blue-300 text-xs uppercase font-semibold"
                        style="font-size: 10px">{{ $post->category->name }}</a>
 
@@ -31,7 +31,7 @@
                 </div>
             </header>
 
-            <div class="text-sm mt-2">
+            <div class="text-sm mt-4 space-y-4">
                 <p>
                     {{ $post->excerpt }}
                 </p>
@@ -46,8 +46,11 @@
                 <div class="flex items-center text-sm">
                     <img src="/images/lary-avatar.svg" alt="Lary avatar">
                     <div class="ml-3">
-                        <h5 class="font-bold">{{ $post->author->name }}</h5>
-                        <h6>Mascot at Laracasts</h6>
+                        <h5 class="font-bold">
+                            <a href="{{ route('posts.view_any',['author' => $post->author->user_name]) }}">
+                                {{ $post->author->name }}
+                            </a>
+                        </h5>                      <h6>Mascot at Laracasts</h6>
                     </div>
                 </div>
 

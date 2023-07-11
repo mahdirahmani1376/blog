@@ -17,19 +17,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = User::factory()->count(1)->create();
+        $users = User::factory()->count(10)->create();
+        $categories = Category::factory()->count(10)->create();
         foreach ($users as $user) {
-            Category::factory()->count(5)
-                ->has(Post::factory()
-                    ->for($user, 'author')->count(10), 'posts')
-                ->create();
+                    Post::factory()
+                        ->for($user, 'author')
+                        ->for($categories->random(),'category')
+                        ->count(10)
+                        ->create();
         }
 
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }

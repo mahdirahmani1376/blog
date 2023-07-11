@@ -17,8 +17,8 @@ class PostFactory extends Factory
             'category_id' => Category::factory(),
             'title' => $this->faker->sentence,
             'slug' => $this->faker->slug,
-            'excerpt' => $this->faker->sentence,
-            'body' => $this->faker->paragraph,
+            'excerpt' => $this->faker->paragraph(2 ),
+            'body' => $this->faker->paragraph(6 ),
             'published_at' => Carbon::now(),
         ];
     }
