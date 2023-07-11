@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::prefix('/posts')->controller(PostsController::class)->group(function (){
     Route::get('/','index')->name('posts.view_any');
