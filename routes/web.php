@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -17,15 +18,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
-
-Route::prefix('/posts')->controller(PostsController::class)->group(function (){
-    Route::get('/','index')->name('posts.view_any');
+Route::prefix('/')->controller(PostsController::class)->group(function (){
+    Route::get('/','index')->name('home');
     Route::get('/{post:slug}','show')->name('posts.view');
 });
 
 Route::prefix('/categories')->controller(CategoriesController::class)->group(function (){
    Route::get('/{category:slug}','show')->name('categories.view');
+});
+
+Route::prefix('register')->controller(RegisterController::class)->group(function (){
+   Route::get('/','create');
+   
 });

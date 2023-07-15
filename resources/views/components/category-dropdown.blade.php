@@ -7,12 +7,12 @@
         </button>
     </x-slot>
 
-    <x-dropdown-item href="{{ route('posts.view_any',['category' => $category->slug]) }} & {{ http_build_query(request()->except('category','page')) }}" :active="request()->routeIs('home')">All
+    <x-dropdown-item href="{{ route('home') }} & {{ http_build_query(request()->except('category','page')) }}" :active="request()->routeIs('home')">All
     </x-dropdown-item>
 
     @foreach($categories as $category)
         <x-dropdown-item
-            href="{{ route('posts.view_any',['category' => $category->slug])}} & {{ http_build_query(request()->except('category','page')) }}"
+            href="{{ route('home',['category' => $category->slug])}} & {{ http_build_query(request()->except('category','page')) }}"
             :active="request()->routeIs('posts.view',$category->slug)">
             {{ ucwords($category->name) }}
         </x-dropdown-item>

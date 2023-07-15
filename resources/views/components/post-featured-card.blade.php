@@ -9,7 +9,7 @@
         <div class="flex-1 flex flex-col justify-between">
             <header class="mt-8 lg:mt-0">
                 <div class="space-x-2">
-                    <a href="{{ route('posts.view_any',['category' => $post->category->slug]) }}"
+                    <a href="{{ route('home',['category' => $post->category->slug]) }}"
                        class="px-3 py-1 border border-blue-300 rounded-full te xt-blue-300 text-xs uppercase font-semibold"
                        style="font-size: 10px">{{ $post->category->name }}</a>
 
@@ -47,7 +47,7 @@
                     <img src="/images/lary-avatar.svg" alt="Lary avatar">
                     <div class="ml-3">
                         <h5 class="font-bold">
-                            <a href="{{ route('posts.view_any',['author' => $post->author->user_name]) }}">
+                            <a href="{{ route('home',['author' => $post->author->user_name]) }}">
                                 {{ $post->author->name }}
                             </a>
                         </h5>                      <h6>Mascot at Laracasts</h6>
