@@ -23,11 +23,7 @@ Route::prefix('/')->controller(PostsController::class)->group(function (){
     Route::get('/{post:slug}','show')->name('posts.view');
 });
 
-Route::prefix('/categories')->controller(CategoriesController::class)->group(function (){
-   Route::get('/{category:slug}','show')->name('categories.view');
-});
-
-Route::prefix('register')->controller(RegisterController::class)->group(function (){
-   Route::get('/','create');
-   
+Route::controller(RegisterController::class)->group(function (){
+   Route::get('/register/signup','create')->name('users.register');
+   Route::post('/register/create','store')->name('users.create');
 });
