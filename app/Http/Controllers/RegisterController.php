@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
@@ -15,13 +16,15 @@ class RegisterController extends Controller
     {
         $data = request()->validate([
             'name' => ['required', 'max:255'],
-            'user_name' => ['required','max:255','min:3'],
-            'email' => ['required','email','max:255'],
+            'user_name' => ['required','max:255','min:3',Rule::unique('users','user_name')],
+            'email' => ['required','email','max:255',Rule::unique('users','email')],
             'password' => ['required','max:255','min:7']
         ]);
 
-        User::create($data);
+        $user = User::create($data);
 
-        return redirect(route('home'));
+        auth()->login($user);
+
+        return redirect(route('home'))->with('success','Your account has been created');
     }
 }
