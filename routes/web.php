@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\MailChimpController;
 use App\Http\Controllers\PostCommentsController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\RegisterController;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->controller(PostsController::class)->group(function (){
     Route::get('/','index')->name('home');
     Route::get('/{post:slug}','show')->name('posts.view');
+    Route::get('/posts/create','create')->name('posts.create')->middleware(['admin','auth']);
 });
 
 Route::controller(RegisterController::class)->prefix('register')->group(function (){
@@ -41,3 +43,7 @@ Route::controller(PostCommentsController::class)->prefix('comments')->group(func
    Route::post('/{post:slug}/comments','store')->name('comments.store');
 });
 
+Route::controller(MailChimpController::class)->prefix('mail-chimp')->group(function (){
+   Route::get('/ping','ping')->name('mail-chimp.ping');
+   Route::post('/newsletter','signUp')->name('mail-chimp.signUp');
+});
