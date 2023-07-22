@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\MailChimpController;
@@ -47,4 +48,10 @@ Route::controller(PostCommentsController::class)->prefix('comments')->group(func
 Route::controller(MailChimpController::class)->prefix('mail-chimp')->group(function (){
    Route::get('/ping','ping')->name('mail-chimp.ping');
    Route::post('/newsletter','signUp')->name('mail-chimp.signUp');
+});
+
+Route::controller(AdminPostController::class)->prefix('admin/posts')->middleware('admin')->group(function (){
+	Route::get('/','index')->name('admin-posts.index');
+    Route::post('/','store')->name('admin-posts.store');
+    Route::get('/{post}/edit','edit')->name('admin-posts.edit');
 });
