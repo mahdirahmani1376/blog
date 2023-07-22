@@ -11,6 +11,7 @@ class PostsController extends Controller
 {
     public function index()
     {
+        $a = 2;
         return view('posts.index', [
             'posts' => Post::latest()->filter(request(['search', 'category', 'author']))->paginate(6)->withQueryString(),
         ]);
@@ -29,15 +30,21 @@ class PostsController extends Controller
             'slug' => ['required',Rule::unique('posts','slug')],
             'excerpt' => ['required'],
             'body' => ['required'],
-            'category_id' => ['required',Rule::exists('categories','category_id')]
+            'category_id' => ['required',Rule::exists('categories','id')]
         ]);
 
-        $data['user_id'] = auth()->id();
-        $data['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
+        $data['author_id'] = auth()->id();
+
+        if ($request->file('thumbnail')){
+            $file = $request->file('thumbnail');
+            $fileName =  now()->format('Y_m_d_H_i_s'). '_' . $file->getClientOriginalName();
+            $file->storeAs('public/thumbnails',$fileName);
+            $data['thumbnail'] = $fileName;
+        }
 
         $post = Post::create($data);
 
-        return redirect(route('home'));
+        return redirect(route('home'))->with('success','post_created_successfully');
     }
 
     public function show(Post $post)

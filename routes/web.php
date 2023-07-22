@@ -25,7 +25,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->controller(PostsController::class)->group(function (){
     Route::get('/','index')->name('home');
     Route::get('/{post:slug}','show')->name('posts.view');
-    Route::get('/posts/create','create')->name('posts.create')->middleware(['admin','auth']);
+    Route::get('admin/posts/create','create')->name('posts.create')->middleware(['admin','auth']);
+    Route::post('/admin/posts','store')->name('posts.store')->middleware(['admin','auth']);
 });
 
 Route::controller(RegisterController::class)->prefix('register')->group(function (){
@@ -34,7 +35,7 @@ Route::controller(RegisterController::class)->prefix('register')->group(function
 });
 
 Route::controller(SessionsController::class)->prefix('users')->group(function (){
-    Route::get('/login/','create')->middleware('guest')->name('users.login');
+    Route::get('/login/','create')->middleware('guest')->name('login');
     Route::post('/login','store')->name('users.store');
     Route::post('/logout','destroy')->name('users.logout')->middleware('auth');
 });
