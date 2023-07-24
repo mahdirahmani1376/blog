@@ -26,8 +26,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->controller(PostsController::class)->group(function (){
     Route::get('/','index')->name('home');
     Route::get('/{post:slug}','show')->name('posts.view');
-    Route::get('admin/posts/create','create')->name('posts.create')->middleware(['admin','auth']);
-    Route::post('/admin/posts','store')->name('posts.store')->middleware(['admin','auth']);
 });
 
 Route::controller(RegisterController::class)->prefix('register')->group(function (){
@@ -50,8 +48,4 @@ Route::controller(MailChimpController::class)->prefix('mail-chimp')->group(funct
    Route::post('/newsletter','signUp')->name('mail-chimp.signUp');
 });
 
-Route::controller(AdminPostController::class)->prefix('admin/posts')->middleware('admin')->group(function (){
-	Route::get('/','index')->name('admin-posts.index');
-    Route::post('/','store')->name('admin-posts.store');
-    Route::get('/{post}/edit','edit')->name('admin-posts.edit');
-});
+Route::resource('admin/posts',AdminPostController::class)->except('show')->middleware('can:admin');

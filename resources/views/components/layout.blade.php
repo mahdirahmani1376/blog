@@ -40,21 +40,21 @@
                             </button>
                         </x-slot>
 
-                        @admin
+                        @can('admin')
                             <x-dropdown-item
-                                href="/admin/posts"
-                                :active="request()->is('admin/posts')"
+                                href="{{ route('posts.index') }}"
+                                :active="request()->routeIs('posts.index')"
                             >
                                 Dashboard
                             </x-dropdown-item>
 
                             <x-dropdown-item
-                                href="/admin/posts/create"
-                                :active="request()->is('admin/posts/create')"
+                                href="{{ route('posts.store') }}"
+                                :active="request()->routeIs('posts.store')"
                             >
                                 New Post
                             </x-dropdown-item>
-                        @endadmin
+                        @endcan
 
                         <x-dropdown-item
                             href="#"
@@ -64,18 +64,18 @@
                             Log Out
                         </x-dropdown-item>
 
-                        <form id="logout-form" method="POST" action="/logout" class="hidden">
+                        <form id="logout-form" method="POST" action="{{ route('users.logout') }}" class="hidden">
                             @csrf
                         </form>
                     </x-dropdown>
                 @else
-                    <a href="/register"
-                       class="text-xs font-bold uppercase {{ request()->is('register') ? 'text-blue-500' : '' }}">
+                    <a href="{{ route('users.register') }}"
+                       class="text-xs font-bold uppercase {{ request()->routeIs('users.register') ? 'text-blue-500' : '' }}">
                         Register
                     </a>
 
-                    <a href="/login"
-                       class="ml-6 text-xs font-bold uppercase {{ request()->is('login') ? 'text-blue-500' : '' }}">
+                    <a href="{{ route('login') }}"
+                       class="ml-6 text-xs font-bold uppercase {{ request()->routeIs('login') ? 'text-blue-500' : '' }}">
                         Log In
                     </a>
                 @endauth

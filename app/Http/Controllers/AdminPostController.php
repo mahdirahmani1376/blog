@@ -17,14 +17,7 @@ class AdminPostController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => ['required'],
-            'thumbnail' => ['required', 'image'],
-            'slug' => ['required', Rule::unique('posts', 'slug')],
-            'excerpt' => ['required'],
-            'body' => ['required'],
-            'category_id' => ['required', Rule::exists('categories', 'id')]
-        ]);
+        $data = $this->validatePost();
 
         $data['author_id'] = auth()->id();
 
@@ -52,14 +45,14 @@ class AdminPostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        $data = $request->validate([
-            'title' => ['required'],
-            'thumbnail' => ['required', 'image'],
-            'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post->id)],
-            'excerpt' => ['required'],
-            'body' => ['required'],
-            'category_id' => ['required', Rule::exists('categories', 'id')]
-        ]);
+        $data = $this->validatePost($post);
+
+        if ($request->file('thumbnail')) {
+            $file = $request->file('thumbnail');
+            $fileName = now()->format('Y_m_d_H_i_s') . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/thumbnails', $fileName);
+            $data['thumbnail'] = $fileName;
+        }
 
 		$post->update($data);
 
@@ -71,5 +64,23 @@ class AdminPostController extends Controller
         $post->delete();
 
         return back()->with('success','Post Deleted!');
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    protected function validatePost(?Post $post=null): array
+    {
+        $post ??= new Post();
+
+        return request()->validate([
+            'title' => ['required'],
+            'thumbnail' => $post->exists ? ['image'] : ['image','required'],
+            'slug' => ['required', Rule::unique('posts', 'slug')->ignore($post->id)],
+            'excerpt' => ['required'],
+            'body' => ['required'],
+            'category_id' => ['required', Rule::exists('categories', 'id')]
+        ]);
     }
 }
